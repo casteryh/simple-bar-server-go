@@ -27,6 +27,23 @@ simple-bar-server running at http://localhost:7776
 On macOS it also asks Uebersicht to refresh on startup, matching the upstream
 server behavior.
 
+## macOS LaunchAgent
+
+To run the server as a per-user macOS service:
+
+```bash
+./scripts/install-launch-agent.sh
+```
+
+To unload and remove the LaunchAgent:
+
+```bash
+./scripts/uninstall-launch-agent.sh
+```
+
+Logs are written to `~/Library/Logs/simple-bar-server-go.out.log` and
+`~/Library/Logs/simple-bar-server-go.err.log`.
+
 ## Compatibility
 
 The HTTP and WebSocket API mirrors upstream `simple-bar-server`:
