@@ -1,0 +1,38 @@
+# simple-bar-server
+
+A Go standard-library implementation of Jean Tinland's `simple-bar-server`.
+It listens on the same loopback ports as the upstream server:
+
+- HTTP commands: `127.0.0.1:7776`
+- WebSocket clients: `127.0.0.1:7777`
+
+## Build
+
+```bash
+go build -o simple-bar-server .
+```
+
+## Run
+
+```bash
+./simple-bar-server
+```
+
+The server prints:
+
+```text
+simple-bar-server running at http://localhost:7776
+```
+
+On macOS it also asks Uebersicht to refresh on startup, matching the upstream
+server behavior.
+
+## Compatibility
+
+The HTTP and WebSocket API mirrors upstream `simple-bar-server`:
+
+- refresh, toggle, enable, or disable simple-bar widgets
+- refresh yabai spaces, windows, and displays widgets
+- refresh the skhd mode indicator
+- refresh the AeroSpace spaces widget, including `space` payloads
+- push missive notifications to connected simple-bar clients
