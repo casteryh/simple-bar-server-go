@@ -28,6 +28,11 @@ func TestHTTPValidationMatchesUpstreamBodies(t *testing.T) {
 			want: `Unknown realm "unknown".`,
 		},
 		{
+			name: "widget missing kind",
+			path: "/widget",
+			want: "Missing kind name.",
+		},
+		{
 			name: "widget missing action",
 			path: "/widget/battery",
 			want: "You need to specify an action (toggle, enable, disable, refresh).",
@@ -43,9 +48,86 @@ func TestHTTPValidationMatchesUpstreamBodies(t *testing.T) {
 			want: `Unknown action "nope".`,
 		},
 		{
+			name: "widget valid",
+			path: "/widget/battery/refresh",
+			want: "",
+		},
+		{
+			name: "yabai missing kind",
+			path: "/yabai",
+			want: "Missing kind name.",
+		},
+		{
+			name: "yabai unknown kind",
+			path: "/yabai/nope/refresh",
+			want: `Unknown kind "nope".`,
+		},
+		{
+			name: "yabai missing action",
+			path: "/yabai/spaces",
+			want: "You need to specify an action (refresh).",
+		},
+		{
+			name: "yabai unknown action",
+			path: "/yabai/spaces/nope",
+			want: `Unknown action "nope".`,
+		},
+		{
+			name: "skhd missing kind",
+			path: "/skhd",
+			want: "Missing kind name.",
+		},
+		{
+			name: "skhd unknown kind",
+			path: "/skhd/nope/refresh",
+			want: `Unknown kind "nope".`,
+		},
+		{
+			name: "skhd missing action",
+			path: "/skhd/mode",
+			want: "You need to specify an action (refresh).",
+		},
+		{
+			name: "skhd unknown action",
+			path: "/skhd/mode/nope",
+			want: `Unknown action "nope".`,
+		},
+		{
+			name: "aerospace missing kind",
+			path: "/aerospace",
+			want: "Missing kind name.",
+		},
+		{
+			name: "aerospace unknown kind",
+			path: "/aerospace/nope/refresh",
+			want: `Unknown kind "nope".`,
+		},
+		{
+			name: "aerospace missing action",
+			path: "/aerospace/spaces",
+			want: "You need to specify an action (refresh).",
+		},
+		{
+			name: "aerospace unknown action",
+			path: "/aerospace/spaces/nope",
+			want: `Unknown action "nope".`,
+		},
+		{
 			name: "missive get",
 			path: "/missive/push",
 			want: "Method Not Allowed.",
+		},
+		{
+			name:   "missive missing action",
+			method: http.MethodPost,
+			path:   "/missive",
+			want:   "You need to specify an action (push).",
+		},
+		{
+			name:   "missive unknown action",
+			method: http.MethodPost,
+			path:   "/missive/nope",
+			want:   `Unknown action "nope".`,
 		},
 		{
 			name:   "missive invalid json",
