@@ -282,14 +282,13 @@ func truthy(value any) bool {
 }
 
 func actionPayload(action string) string {
-	payload, _ := json.Marshal(struct {
+	return encodeJSON(struct {
 		Action string `json:"action"`
 	}{Action: action})
-	return string(payload)
 }
 
 func aerospaceSpacePayload(action, space string) string {
-	payload, _ := json.Marshal(struct {
+	return encodeJSON(struct {
 		Action string `json:"action"`
 		Data   struct {
 			Space string `json:"space"`
@@ -300,13 +299,19 @@ func aerospaceSpacePayload(action, space string) string {
 			Space string `json:"space"`
 		}{Space: space},
 	})
-	return string(payload)
 }
 
 func missivePayload(action string, data []byte) string {
-	payload, _ := json.Marshal(struct {
+	return encodeJSON(struct {
 		Action string          `json:"action"`
 		Data   json.RawMessage `json:"data"`
 	}{Action: action, Data: json.RawMessage(data)})
-	return string(payload)
+}
+
+func encodeJSON(value any) string {
+	var payload bytes.Buffer
+	encoder := json.NewEncoder(&payload)
+	encoder.SetEscapeHTML(false)
+	_ = encoder.Encode(value)
+	return strings.TrimSuffix(payload.String(), "\n")
 }

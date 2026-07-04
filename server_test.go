@@ -231,6 +231,16 @@ func TestAerospaceKeepsLastSpaceUntilQueueCleanup(t *testing.T) {
 	assertMessage(t, messages, `{"action":"refresh","data":{"space":"1"}}`)
 }
 
+func TestAerospaceSpacePayloadMatchesJSONStringifyEscaping(t *testing.T) {
+	server := newSimpleBarServer()
+	messages := make(chan string, 1)
+	server.hub.add(fakeClient("spaces", "", messages))
+
+	perform(server, http.MethodGet, "/aerospace/spaces/refresh?space=%3C%3E%26", "")
+
+	assertMessage(t, messages, `{"action":"refresh","data":{"space":"<>&"}}`)
+}
+
 func TestMissivePostRespondsEmptyAndBroadcastsValidContent(t *testing.T) {
 	server := newSimpleBarServer()
 	messages := make(chan string, 1)
@@ -242,6 +252,16 @@ func TestMissivePostRespondsEmptyAndBroadcastsValidContent(t *testing.T) {
 		t.Fatalf("body = %q, want empty", got)
 	}
 	assertMessage(t, messages, `{"action":"push","data":{"content":"hello","z":1}}`)
+}
+
+func TestMissivePayloadMatchesJSONStringifyEscaping(t *testing.T) {
+	server := newSimpleBarServer()
+	messages := make(chan string, 1)
+	server.hub.add(fakeClient("missive", "", messages))
+
+	perform(server, http.MethodPost, "/missive/push", `{"content":"<>&"}`)
+
+	assertMessage(t, messages, `{"action":"push","data":{"content":"<>&"}}`)
 }
 
 func perform(server *simpleBarServer, method, path, body string) *httptest.ResponseRecorder {
