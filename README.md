@@ -1,6 +1,12 @@
-# simple-bar-server
+# simple-bar-server-go
 
-A Go standard-library implementation of Jean Tinland's `simple-bar-server`.
+This is go port of Jean-Tinland/simple-bar-server using only go's standard library.
+
+Jean Tinland's `simple-bar[-server]` is great software and I really like it.
+The only reason I want a go version is because I am scared of running npm on my personal laptop due to recent events.
+
+It seems to work for me. Please file issues if you find any bugs or the upstream behavior has changed.
+
 It listens on the same loopback ports as the upstream server:
 
 - HTTP commands: `127.0.0.1:7776`
