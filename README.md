@@ -47,8 +47,9 @@ To unload and remove the LaunchAgent:
 ./scripts/uninstall-launch-agent.sh
 ```
 
-Logs are written to `~/Library/Logs/simple-bar-server-go.out.log` and
-`~/Library/Logs/simple-bar-server-go.err.log`.
+Logs are written to `/tmp/simple-bar-server-go.out.log` and
+`/tmp/simple-bar-server-go.err.log`. The LaunchAgent also sets
+`ThrottleInterval` to `5` so crash loops are rate-limited.
 
 ## Compatibility
 
